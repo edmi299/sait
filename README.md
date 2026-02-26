@@ -1,0 +1,1650 @@
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АвтоМир - Продажа автомобилей</title>
+    <style>
+        :root {
+            --primary: #ff4d00;
+            --primary-hover: #e04400;
+            --dark: #1a1a1a;
+            --light: #f5f5f5;
+            --text: #333;
+            --gray: #666;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            opacity: 0;
+            animation: fadeInBody 1s ease forwards;
+        }
+
+        @keyframes fadeInBody {
+            to { opacity: 1; }
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s ease;
+        }
+
+        .logo:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .cart-icon:hover .cart-count {
+            background: var(--primary-hover);
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+            animation: zoomIn 1.5s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(1.1);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(255, 77, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 12px rgba(255, 77, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #555;
+        }
+
+        .btn-danger {
+            background: #ff4444;
+        }
+
+        .btn-danger:hover {
+            background: #cc0000;
+        }
+
+        .hero .btn {
+            animation: fadeInUp 1s ease 0.9s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .filters {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin: -60px auto 40px;
+            position: relative;
+            z-index: 10;
+            max-width: 1000px;
+            animation: fadeInUp 0.8s ease 1.2s both;
+        }
+        
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .reset-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .reset-btn:hover {
+            color: var(--primary);
+        }
+        
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+        
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.1);
+        }
+        
+        .cars-section {
+            padding: 40px 0 80px;
+            flex: 1;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+            border-radius: 3px;
+        }
+        
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        
+        .car-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUpCard 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUpCard {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .car-card:nth-child(1) { animation-delay: 0.1s; }
+        .car-card:nth-child(2) { animation-delay: 0.2s; }
+        .car-card:nth-child(3) { animation-delay: 0.3s; }
+        .car-card:nth-child(4) { animation-delay: 0.4s; }
+        .car-card:nth-child(5) { animation-delay: 0.5s; }
+        .car-card:nth-child(6) { animation-delay: 0.6s; }
+        
+        .car-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .car-image {
+            height: 220px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+            transition: transform 0.5s ease;
+        }
+
+        .car-card:hover .car-image {
+            transform: scale(1.1);
+        }
+        
+        .car-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .car-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+            transition: color 0.3s;
+        }
+
+        .car-card:hover .car-title {
+            color: var(--primary);
+        }
+        
+        .car-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            background: #f9f9f9;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .car-card:hover .car-details {
+            background: #fff0eb;
+            transform: translateY(-2px);
+        }
+        
+        .car-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 15px;
+            margin-top: auto;
+            position: relative;
+            display: inline-block;
+        }
+
+        .car-price::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .car-card:hover .car-price::after {
+            width: 100%;
+        }
+
+        .car-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .car-actions .btn {
+            flex: 1;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+            50% { box-shadow: 0 5px 20px rgba(255, 77, 0, 0.2); }
+            100% { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        }
+
+        .no-results h3 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            text-align: left;
+            position: relative;
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        /* Модалка корзины */
+        .cart-modal-content {
+            max-width: 800px !important;
+        }
+
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 20px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-image {
+            width: 100px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-right: 15px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-details {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            margin: 0 5px;
+            font-size: 1rem;
+        }
+
+        .cart-item-remove {
+            color: #ff4444;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.3s;
+        }
+
+        .cart-item-remove:hover {
+            transform: scale(1.2);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        .cart-total-amount {
+            color: var(--primary);
+        }
+
+        .cart-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--gray);
+        }
+
+        .cart-empty-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        /* Модалка оформления заказа */
+        .order-form {
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .order-summary {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .order-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .order-summary-total {
+            font-weight: bold;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .features {
+            background-color: var(--dark);
+            color: white;
+            padding: 80px 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .feature:nth-child(1) { animation-delay: 0.1s; }
+        .feature:nth-child(2) { animation-delay: 0.2s; }
+        .feature:nth-child(3) { animation-delay: 0.3s; }
+        .feature:nth-child(4) { animation-delay: 0.4s; }
+
+        .feature:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: inline-block;
+            transition: transform 0.5s ease;
+        }
+
+        .feature:hover .feature-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        footer {
+            background-color: #111;
+            color: #888;
+            padding: 60px 0 20px;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 30px;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .footer-column:hover h3::after {
+            width: 60px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-column ul li:hover {
+            transform: translateX(5px);
+        }
+        
+        .footer-column ul li a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #222;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; }
+            nav ul { margin-top: 15px; }
+            .hero h1 { font-size: 2rem; }
+            .filters { padding: 15px; margin-top: -30px; }
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .cart-item-image {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .cart-item-quantity {
+                margin: 10px 0;
+            }
+            .cart-actions {
+                flex-direction: column;
+            }
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 99;
+            box-shadow: 0 4px 12px rgba(255, 77, 0, 0.3);
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 6px 16px rgba(255, 77, 0, 0.4);
+        }
+
+        .scroll-top.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">АвтоМир</div>
+                <nav>
+                    <ul>
+                        <li><a href="#">Главная</a></li>
+                        <li><a href="#catalog">Каталог</a></li>
+                        <li><a href="#features">Преимущества</a></li>
+                        <li><a href="#footer">Контакты</a></li>
+                        <li class="cart-icon" onclick="openCartModal()">
+                            🛒
+                            <span class="cart-count" id="cart-count">0</span>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Найдите свой идеальный автомобиль</h1>
+            <p>Широкий выбор новых и подержанных автомобилей. Гарантированная юридическая чистота и техническая исправность.</p>
+            <a href="#catalog" class="btn">Перейти в каталог</a>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="filters">
+            <div class="filter-header">
+                <h3>Подбор автомобиля</h3>
+                <button class="reset-btn" onclick="resetFilters()">Сбросить фильтры</button>
+            </div>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="brand">Марка</label>
+                    <select id="brand" onchange="updateModels()">
+                        <option value="">Все марки</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="model">Модель</label>
+                    <select id="model" disabled>
+                        <option value="">Все модели</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="year">Год (от)</label>
+                    <select id="year">
+                        <option value="">Любой</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="price-min">Цена от (₽)</label>
+                    <input type="number" id="price-min" placeholder="0">
+                </div>
+                <div class="filter-group">
+                    <label for="price-max">Цена до (₽)</label>
+                    <input type="number" id="price-max" placeholder="10 000 000">
+                </div>
+                <div class="filter-group">
+                    <label for="fuel">Топливо</label>
+                    <select id="fuel">
+                        <option value="">Любой тип</option>
+                        <option value="Бензин">Бензин</option>
+                        <option value="Дизель">Дизель</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>&nbsp;</label>
+                    <button class="btn" style="width: 100%;" onclick="applyFilters()">Показать авто</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="cars-section" id="catalog">
+        <div class="container">
+            <h2 class="section-title">Наличие автомобилей</h2>
+            <div class="cars-grid" id="cars-grid">
+            </div>
+        </div>
+    </section>
+
+    <!-- Модальное окно корзины -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content cart-modal-content">
+            <span class="close-modal" onclick="closeCartModal()">&times;</span>
+            <h2>Корзина</h2>
+            <div class="cart-items" id="cart-items">
+                <!-- Здесь будут товары -->
+            </div>
+            <div class="cart-total">
+                <span>Итого:</span>
+                <span class="cart-total-amount" id="cart-total">0 ₽</span>
+            </div>
+            <div class="cart-actions">
+                <button class="btn btn-secondary" onclick="closeCartModal()">Продолжить покупки</button>
+                <button class="btn" onclick="openOrderModal()" id="checkout-btn" disabled>Оформить заказ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно оформления заказа -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content cart-modal-content">
+            <span class="close-modal" onclick="closeOrderModal()">&times;</span>
+            <h2>Оформление заказа</h2>
+            <div id="order-form-container">
+                <div class="order-form">
+                    <div class="form-group">
+                        <label for="order-name">ФИО *</label>
+                        <input type="text" id="order-name" placeholder="Иванов Иван Иванович" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="order-phone">Телефон *</label>
+                        <input type="tel" id="order-phone" placeholder="+7 (900) 123-45-67" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="order-email">Email</label>
+                        <input type="email" id="order-email" placeholder="ivanov@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="order-comment">Комментарий к заказу</label>
+                        <textarea id="order-comment" placeholder="Дополнительные пожелания..."></textarea>
+                    </div>
+                    <div class="order-summary" id="order-summary">
+                        <!-- Здесь будет сводка заказа -->
+                    </div>
+                    <div class="cart-actions">
+                        <button class="btn btn-secondary" onclick="closeOrderModal()">Назад</button>
+                        <button class="btn" onclick="submitOrder()">Подтвердить заказ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно успешного заказа -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeSuccessModal()">&times;</span>
+            <div class="success-message">
+                <div class="success-icon">✓</div>
+                <h2>Заказ оформлен!</h2>
+                <p>Спасибо за ваш заказ. Наш менеджер свяжется с вами в течение 15 минут для подтверждения.</p>
+                <p id="order-number"></p>
+                <button class="btn" onclick="closeSuccessModal()">Отлично</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Почему выбирают нас</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">✓</div>
+                    <h3>Гарантия качества</h3>
+                    <p>Полная диагностика по 120 пунктам перед продажей</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💰</div>
+                    <h3>Честная цена</h3>
+                    <p>Никаких скрытых комиссий и навязанных услуг</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Сервис</h3>
+                    <p>Собственная станция техобслуживания</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🚗</div>
+                    <h3>Тест-драйв</h3>
+                    <p>Поездка на любом авто перед покупкой</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>АвтоМир</h3>
+                    <p>Ваш надежный партнер в мире автомобилей. Работаем для вас с 2010 года.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Навигация</h3>
+                    <ul>
+                        <li><a href="#">Каталог авто</a></li>
+                        <li><a href="#">Trade-In</a></li>
+                        <li><a href="#">Кредитование</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Клиентам</h3>
+                    <ul>
+                        <li><a href="#">Контакты</a></li>
+                        <li><a href="#">О компании</a></li>
+                        <li><a href="#">Отзывы</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li>📍 Москва, пр. Егорьевский, 4</li>
+                        <li>📞 +7 904 567-05-14</li>
+                        <li>✉️ info@avtomir.ru</li>
+                        <li>🕒 Ежедневно: круглосуточно</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 АвтоМир. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const carsData = [
+            {
+                id: 1,
+                brand: "Toyota",
+                model: "Camry",
+                year: 2022,
+                engine: "2.5 л / 200 л.с.",
+                transmission: "Автомат",
+                fuel: "Бензин",
+                price: 3450000,
+                image: "https://mkt-vehicleimages-prd.autotradercdn.ca/photos/chrome/Expanded/White/2022TOC020032/2022TOC02003201.jpg" 
+            },
+            {
+                id: 2,
+                brand: "BMW",
+                model: "X5",
+                year: 2021,
+                engine: "3.0 л / 249 л.с.",
+                transmission: "Автомат",
+                fuel: "Дизель",
+                price: 7890000,
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi1Jv5-QLFSlrY2UavJ5m3MUTDVftvJ0BVUw&s"
+            },
+            {
+                id: 3,
+                brand: "Mercedes-Benz",
+                model: "C-Class",
+                year: 2020,
+                engine: "1.5 л / 170 л.с.",
+                transmission: "Автомат",
+                fuel: "Бензин",
+                price: 3750000,
+                image: "https://bex-auto.md/storage/cars/f48c53164a8897d7d6578659716676fe.jpeg"
+            },
+            {
+                id: 4,
+                brand: "Audi",
+                model: "A4",
+                year: 2020,
+                engine: "2.0 л / 190 л.с.",
+                transmission: "Робот",
+                fuel: "Бензин",
+                price: 2990000,
+                image: "https://i.gaw.to/vehicles/photos/40/19/401931-2020-audi-a4.jpg?640x400"
+            },
+            {
+                id: 5,
+                brand: "Honda",
+                model: "CR-V",
+                year: 2021,
+                engine: "2.4 л / 186 л.с.",
+                transmission: "Вариатор",
+                fuel: "Бензин",
+                price: 3150000,
+                image: "https://di-uploads-pod15.dealerinspire.com/verneidehonda1/uploads/2021/01/Introducing-the-New-2021-Honda-CR-V-Slider.jpg"
+            },
+            {
+                id: 6,
+                brand: "Volkswagen",
+                model: "Tiguan",
+                year: 2021,
+                engine: "2.0 л / 180 л.с.",
+                transmission: "Робот",
+                fuel: "Бензин",
+                price: 3200000,
+                image: "https://images.hgmsites.net/med/2021-volkswagen-tiguan-2-0t-se-fwd-angular-front-exterior-view_100793917_m.jpg"
+            }
+        ];
+
+        // Корзина
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCars(carsData);
+            populateBrands();
+            initScrollTop();
+            updateCartCount();
+            renderCart();
+        });
+
+        function formatPrice(price) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽";
+        }
+
+        function renderCars(cars) {
+            const grid = document.getElementById('cars-grid');
+            grid.innerHTML = '';
+
+            if (cars.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results">
+                        <h3>Ничего не найдено</h3>
+                        <p>Попробуйте изменить параметры поиска или сбросить фильтры.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            cars.forEach(car => {
+                const card = document.createElement('div');
+                card.className = 'car-card';
+                card.innerHTML = `
+                    <img src="${car.image}" alt="${car.brand} ${car.model}" class="car-image">
+                    <div class="car-info">
+                        <h3 class="car-title">${car.brand} ${car.model} ${car.year}</h3>
+                        <div class="car-details">
+                            <span>${car.engine}</span>
+                            <span>${car.fuel}</span>
+                        </div>
+                        <div class="car-price">${formatPrice(car.price)}</div>
+                        <div class="car-actions">
+                            <button class="btn" onclick="addToCart(${car.id})">В корзину</button>
+                            <button class="btn btn-secondary" onclick="showCarDetails(${car.id})">Подробнее</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function showCarDetails(carId) {
+            const car = carsData.find(c => c.id === carId);
+            if (!car) return;
+
+            alert(`
+${car.brand} ${car.model} ${car.year}
+
+Двигатель: ${car.engine}
+Коробка передач: ${car.transmission}
+Тип топлива: ${car.fuel}
+Цена: ${formatPrice(car.price)}
+
+Полная диагностика перед продажей
+Гарантия 7 лет
+Тест-драйв доступен
+            `);
+        }
+
+        function populateBrands() {
+            const brandSelect = document.getElementById('brand');
+            const brands = [...new Set(carsData.map(car => car.brand))];
+            
+            brands.forEach(brand => {
+                const option = document.createElement('option');
+                option.value = brand;
+                option.textContent = brand;
+                brandSelect.appendChild(option);
+            });
+        }
+
+        function updateModels() {
+            const brandSelect = document.getElementById('brand');
+            const modelSelect = document.getElementById('model');
+            const selectedBrand = brandSelect.value;
+
+            modelSelect.innerHTML = '<option value="">Все модели</option>';
+            modelSelect.disabled = !selectedBrand;
+
+            if (selectedBrand) {
+                const brandCars = carsData.filter(car => car.brand === selectedBrand);
+                const models = [...new Set(brandCars.map(car => car.model))];
+                
+                models.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model;
+                    option.textContent = model;
+                    modelSelect.appendChild(option);
+                });
+            }
+        }
+
+        function applyFilters() {
+            const brand = document.getElementById('brand').value;
+            const model = document.getElementById('model').value;
+            const year = document.getElementById('year').value;
+            const priceMin = document.getElementById('price-min').value;
+            const priceMax = document.getElementById('price-max').value;
+            const fuel = document.getElementById('fuel').value;
+
+            const filteredCars = carsData.filter(car => {
+                const matchBrand = !brand || car.brand === brand;
+                const matchModel = !model || car.model === model;
+                const matchYear = !year || car.year >= parseInt(year);
+                const matchPriceMin = !priceMin || car.price >= parseInt(priceMin);
+                const matchPriceMax = !priceMax || car.price <= parseInt(priceMax);
+                const matchFuel = !fuel || car.fuel === fuel;
+
+                return matchBrand && matchModel && matchYear && matchPriceMin && matchPriceMax && matchFuel;
+            });
+
+            renderCars(filteredCars);
+        }
+
+        function resetFilters() {
+            document.getElementById('brand').value = '';
+            document.getElementById('model').innerHTML = '<option value="">Все модели</option>';
+            document.getElementById('model').disabled = true;
+            document.getElementById('year').value = '';
+            document.getElementById('price-min').value = '';
+            document.getElementById('price-max').value = '';
+            document.getElementById('fuel').value = '';
+            
+            renderCars(carsData);
+        }
+
+        // Работа с корзиной
+        function addToCart(carId) {
+            const car = carsData.find(c => c.id === carId);
+            if (!car) return;
+
+            const existingItem = cart.find(item => item.id === carId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...car,
+                    quantity: 1
+                });
+            }
+
+            saveCart();
+            updateCartCount();
+            renderCart();
+            
+            // Показываем уведомление
+            showNotification(`${car.brand} ${car.model} добавлен в корзину!`);
+        }
+
+        function removeFromCart(carId) {
+            cart = cart.filter(item => item.id !== carId);
+            saveCart();
+            updateCartCount();
+            renderCart();
+        }
+
+        function updateQuantity(carId, newQuantity) {
+            if (newQuantity < 1) {
+                removeFromCart(carId);
+                return;
+            }
+
+            const item = cart.find(item => item.id === carId);
+            if (item) {
+                item.quantity = newQuantity;
+                saveCart();
+                updateCartCount();
+                renderCart();
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = totalItems;
+        }
+
+        function renderCart() {
+            const cartItems = document.getElementById('cart-items');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="cart-empty">
+                        <div class="cart-empty-icon">🛒</div>
+                        <h3>Корзина пуста</h3>
+                        <p>Добавьте автомобили из каталога</p>
+                    </div>
+                `;
+                checkoutBtn.disabled = true;
+                document.getElementById('cart-total').textContent = '0 ₽';
+                return;
+            }
+
+            checkoutBtn.disabled = false;
+
+            let itemsHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                itemsHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.brand} ${item.model}" class="cart-item-image">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.brand} ${item.model} ${item.year}</div>
+                            <div class="cart-item-details">${item.engine} | ${item.fuel}</div>
+                            <div class="cart-item-price">${formatPrice(item.price)}</div>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                            <input type="number" class="quantity-input" value="${item.quantity}" min="1" 
+                                   onchange="updateQuantity(${item.id}, parseInt(this.value))">
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                        </div>
+                        <div class="cart-item-remove" onclick="removeFromCart(${item.id})">🗑️</div>
+                    </div>
+                `;
+            });
+
+            cartItems.innerHTML = itemsHTML;
+            document.getElementById('cart-total').textContent = formatPrice(total);
+        }
+
+        function showNotification(message) {
+            // Создаем уведомление
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: var(--primary);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Удаляем уведомление через 3 секунды
+            setTimeout(() => {
+                notification.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Модальные окна
+        function openCartModal() {
+            renderCart();
+            document.getElementById('cart-modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCartModal() {
+            document.getElementById('cart-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function openOrderModal() {
+            const orderSummary = document.getElementById('order-summary');
+            let summaryHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                summaryHTML += `
+                    <div class="order-summary-item">
+                        <span>${item.brand} ${item.model} × ${item.quantity}</span>
+                        <span>${formatPrice(itemTotal)}</span>
+                    </div>
+                `;
+            });
+
+            summaryHTML += `
+                <div class="order-summary-item order-summary-total">
+                    <span>Итого:</span>
+                    <span>${formatPrice(total)}</span>
+                </div>
+            `;
+
+            orderSummary.innerHTML = summaryHTML;
+            document.getElementById('order-modal').style.display = 'flex';
+            closeCartModal();
+        }
+
+        function closeOrderModal() {
+            document.getElementById('order-modal').style.display = 'none';
+            openCartModal();
+        }
+
+        function submitOrder() {
+            const name = document.getElementById('order-name').value;
+            const phone = document.getElementById('order-phone').value;
+            const email = document.getElementById('order-email').value;
+            const comment = document.getElementById('order-comment').value;
+
+            if (!name || !phone) {
+                alert('Пожалуйста, заполните обязательные поля (ФИО и телефон)');
+                return;
+            }
+
+            // Генерируем номер заказа
+            const orderNumber = 'ORD-' + Date.now();
+            
+            // Сохраняем заказ в localStorage
+            const order = {
+                id: orderNumber,
+                date: new Date().toLocaleString(),
+                customer: { name, phone, email, comment },
+                items: [...cart],
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+            };
+
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            // Очищаем корзину
+            cart = [];
+            saveCart();
+            updateCartCount();
+
+            // Показываем подтверждение
+            document.getElementById('order-number').textContent = `Номер вашего заказа: ${orderNumber}`;
+            document.getElementById('order-modal').style.display = 'none';
+            document.getElementById('success-modal').style.display = 'flex';
+
+            // Очищаем форму
+            document.getElementById('order-name').value = '';
+            document.getElementById('order-phone').value = '';
+            document.getElementById('order-email').value = '';
+            document.getElementById('order-comment').value = '';
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('success-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Закрытие модальных окон при клике вне их
+        window.onclick = function(event) {
+            const modals = ['cart-modal', 'order-modal', 'success-modal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (event.target == modal) {
+                    if (modalId === 'cart-modal') closeCartModal();
+                    if (modalId === 'order-modal') closeOrderModal();
+                    if (modalId === 'success-modal') closeSuccessModal();
+                }
+            });
+        }
+
+        function initScrollTop() {
+            const scrollTopBtn = document.getElementById('scrollTop');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.classList.add('show');
+                } else {
+                    scrollTopBtn.classList.remove('show');
+                }
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Экспорт данных для отладки
+        window.getCartData = () => cart;
+        window.getOrdersData = () => JSON.parse(localStorage.getItem('orders')) || [];
+        window.clearCart = () => {
+            cart = [];
+            saveCart();
+            updateCartCount();
+            renderCart();
+        };
+    </script>
+</body>
+</html>
